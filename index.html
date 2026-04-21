@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>PLANT · 公共生活与技术行政网</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === 全局风格：冷酷、精密、档案化 === */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg: #fcfcfc; 
+  --bg2: #f4f5f4; 
+  --bg3: #ebeceb;
+  --primary: #1c3227; 
+  --primary-h: #2a4a3a;
+  --primary-l: rgba(28, 50, 39, 0.05);
+  --text: #111111; 
+  --text2: #4a4a4a;
+  --text3: #888888;
+  --bdr: #d0d4d1; 
+  --line: #1c3227; 
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+body{font-family:'Inter','Noto Sans SC',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7; letter-spacing: 0.02em;}
+a{color:var(--primary);text-decoration:none; transition: all 0.2s ease;}
+a:hover{color:var(--primary-h)}
+
+/* === 顶栏 === */
+.topbar{background:var(--bg);border-bottom:1px solid var(--bdr);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100; overflow-x: auto;}
+.topbar::-webkit-scrollbar { display: none; }
+.topbar .logo{font-size:16px;font-weight:700;letter-spacing:.2em;color:var(--primary); text-transform: uppercase; flex-shrink: 0;}
+.topbar nav{display:flex;gap:24px; flex-shrink: 0;}
+.topbar nav a{font-size:12px;color:var(--text2);font-weight:500; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap;}
+.topbar nav a:hover{color:var(--primary);}
+.topbar .ver{font-family: var(--mono); font-size:10px;color:var(--text3); background: var(--bg3); padding: 2px 6px; flex-shrink: 0;}
+
+/* === Hero区域 === */
+.hero{background:var(--bg); padding:56px 40px 48px;text-align:left;border-bottom:2px solid var(--primary);}
+.hero h1{font-size:36px;font-weight:700;color:var(--primary);letter-spacing:.12em;margin-bottom:8px; line-height: 1;}
+.hero .slogan{font-size:14px;color:var(--text);font-weight:600;letter-spacing:.1em;margin-bottom:4px}
+.hero .slogan-en{font-family: var(--mono); font-size:10px;color:var(--text3);margin-bottom:24px; text-transform: uppercase; letter-spacing: 0.05em;}
+.hero .sub{font-size:13px;color:var(--text2);max-width:600px; border-left: 3px solid var(--primary); padding-left: 12px;}
+
+/* === 首页卡片排版重构：Flex到底部对齐 Slogan === */
+.section{padding:36px 40px}
+.section-title{font-size:10px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.15em;margin-bottom:20px;padding-bottom:8px;border-bottom:1px solid var(--bdr); display: flex; justify-content: space-between; align-items: flex-end;}
+.section-title::after {content: "SYS_INDEX"; font-family: var(--mono); color: var(--text3); font-size: 9px; font-weight: 400;}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{background:var(--bg);border:1px solid var(--bdr);padding:24px 20px 20px;cursor:pointer;transition:all .2s; position: relative; display: flex; flex-direction: column; min-height: 160px;}
+.card::before {content: ''; position: absolute; top: 0; left: 0; width: 0; height: 3px; background: var(--primary); transition: width 0.2s;}
+.card:hover{border-color:var(--primary); background:var(--bg2);}
+.card:hover::before {width: 100%;}
+.card .c-tag{font-family: var(--mono); font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px; display: inline-block; background: var(--bg3); padding: 2px 6px; align-self: flex-start;}
+.card .c-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:12px; letter-spacing: 0.05em;}
+
+/* 核心：Slogan独立区 */
+.card .c-slogan-box { margin-top: auto; padding-top: 12px; border-top: 1px dashed var(--bdr); }
+.card .c-slogan-cn { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 4px; letter-spacing: 0.05em; }
+.card .c-slogan-en { font-family: var(--mono); font-size: 10px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500;}
+
+.card.accent{background:var(--primary);border-color:var(--primary);}
+.card.accent .c-tag{background: rgba(255,255,255,0.1); color:#fff;}
+.card.accent .c-title, .card.accent .c-slogan-cn, .card.accent .c-slogan-en{color:#fff;}
+.card.accent .c-slogan-box {border-top: 1px dashed rgba(255,255,255,0.3);}
+.card.accent:hover{background:var(--primary-h);}
+
+/* === 内页布局 === */
+.page-wrap{display:flex;min-height:calc(100vh - 52px); width: 100%;}
+#sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--bdr);padding:24px 0;flex-shrink:0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
+#sidebar .nav-label{font-family: var(--mono); font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;padding:12px 24px 6px;font-weight:700}
+#sidebar .nav-item{display:block;padding:8px 24px;font-size:13px;color:var(--text2);cursor:pointer;transition:all .15s; border-left: 2px solid transparent;}
+#sidebar .nav-item:hover{background:var(--primary-l); color: var(--text);}
+#sidebar .nav-item.active{color:var(--primary);font-weight:600;background:var(--bg); border-left: 2px solid var(--primary); border-top: 1px solid var(--bdr); border-bottom: 1px solid var(--bdr);}
+
+/* === 内容区 === */
+#content{flex:1;padding:40px 56px;max-width:800px; width: 100%; overflow-x: hidden;}
+.page-header { border-bottom: 2px solid var(--primary); padding-bottom: 16px; margin-bottom: 24px; }
+.page-header h1 { font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: 0.05em; margin-bottom: 8px;}
+.page-header .ph-slogan-cn { font-size: 14px; font-weight: 600; color: var(--text2); margin-bottom: 4px;}
+.page-header .ph-slogan-en { font-family: var(--mono); font-size: 11px; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;}
+
+#content h2{font-size:14px;font-weight:700;color:var(--primary);margin:32px 0 12px; border-bottom: 1px dashed var(--bdr); padding-bottom: 4px;}
+#content p{font-size:14px;color:var(--text2);margin-bottom:14px; text-align: justify; line-height: 1.8;}
+
+/* Callout 面板 */
+.callout{background:var(--bg);border:1px solid var(--bdr);padding:16px 20px;margin:20px 0;}
+.callout .ct{font-family: var(--mono); font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.callout .cb{font-size:13px;color:var(--text2)}
+.callout.quote{border-left:4px solid var(--primary);background:var(--primary-l);}
+.callout.info{border-left:4px solid #5a7a8a; background: #f2f6f8;}
+.callout.info .ct::before { content: "SYS_MSG: "; color: #5a7a8a; }
+
+/* 表格与交互UI */
+.table-responsive { width: 100%; overflow-x: auto; margin: 24px 0; border: 1px solid var(--bdr); }
+table{width:100%;border-collapse:collapse;font-size:13px; white-space: nowrap;}
+th{background:var(--bg2);font-weight:600;font-size:12px;padding:12px 16px;border-bottom:1px solid var(--bdr);text-align:left; color: var(--text);}
+td{padding:10px 16px;border-bottom:1px solid var(--bdr); color: var(--text2);}
+tr:hover td{background:var(--primary-l);}
+
+.tag{font-family: var(--mono); display:inline-block;background:var(--bg3);color:var(--text2);border: 1px solid var(--bdr);padding:2px 6px;font-size:10px;}
+.tag.active{background:var(--primary);color:#fff;border:none;}
+
+.redacted { background-color: var(--text); color: var(--text); padding: 0 6px; cursor: not-allowed; user-select: none; transition: all 0.2s; display: inline-block; }
+.redacted:hover { background-color: #a83232; color: #fff; font-family: var(--mono); letter-spacing: 0.1em; }
+.redacted::after { content: "[ACCESS DENIED]"; font-size: 0.8em; opacity: 0; }
+.redacted:hover::after { opacity: 1; }
+
+.fake-input { flex: 1; padding: 10px 14px; border: 1px solid var(--bdr); background: var(--bg); font-family: var(--mono); font-size: 13px; outline: none; transition: all 0.2s; min-width: 0; }
+.fake-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-l);}
+.fake-btn { padding: 10px 20px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-family: var(--mono); font-size: 13px; transition: background 0.2s; flex-shrink: 0;}
+.fake-btn:hover { background: var(--primary-h); }
+.query-result { margin-top: 16px; font-family: var(--mono); font-size: 13px; background: var(--bg2); padding: 16px; border: 1px solid var(--bdr); border-left: 4px solid var(--primary); display: none; line-height: 1.8; word-break: break-all;}
+
+.footer-bar{font-family: var(--mono); text-align:left;padding:20px 40px;font-size:10px;color:var(--text3);border-top:1px solid var(--bdr);background:var(--bg2); letter-spacing: 0.05em; display: flex; justify-content: space-between;}
+
+@media (max-width: 900px) {
+  #sidebar { display: none !important; }
+  #content { padding: 24px 20px; max-width: 100%; }
+  .page-wrap { flex-direction: column; }
+  .topbar { padding: 0 16px; gap: 16px; overflow-x: auto; justify-content: flex-start; }
+  .topbar .ver { display: none; }
+  .hero { padding: 40px 20px 32px; }
+  .hero h1 { font-size: 28px; }
+  .section { padding: 24px 20px; }
+  .cards { grid-template-columns: 1fr; }
+  .fake-input-group { flex-direction: column; }
+  .fake-btn { width: 100%; text-align: center; margin-top: 8px;}
+  .footer-bar { flex-direction: column; gap: 12px; text-align: center; justify-content: center; padding: 20px;}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">PLANT</div>
+  <nav>
+    <a href="#" onclick="goHome();return false">首页</a>
+    <a href="#" onclick="showP('crown');return false">机构</a>
+    <a href="#" onclick="showP('shard');return false">科学</a>
+    <a href="#" onclick="showP('leaf');return false">终端</a>
+    <a href="#" onclick="showP('id');return false">服务</a>
+  </nav>
+  <span class="ver">SYS_v3.2.1</span>
+</header>
+
+<div id="home-view">
+  <div class="hero">
+    <h1>PLANT</h1>
+    <div class="slogan">公共生活与技术行政网</div>
+    <div class="slogan-en">Public Life &amp; Administrative Network of Technology</div>
+    <div class="sub">本网站是 Astera·中心城 及其附属区域的唯一法定信息中枢。</div>
+  </div>
+  
+  <div class="section">
+    <div class="section-title">核心机构体系</div>
+    <div class="cards">
+      <div class="card accent" onclick="showP('crown')">
+        <div class="c-tag">Administration</div>
+        <div class="c-title">CROWN</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-cn">秩序是文明的骨骼</div>
+          <div class="c-slogan-en">Order sustains all.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('stem')">
+        <div class="c-tag">Technology</div>
+        <div class="c-title">STEM</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-en">We build what holds.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('seed')">
+        <div class="c-tag">Research</div>
+        <div class="c-title">SEED</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-cn">从一片叶到一座城</div>
+          <div class="c-slogan-en">From leaf to city.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('zeal')">
+        <div class="c-tag">Archived</div>
+        <div class="c-title" style="color:var(--text3);">ZEAL (已封存)</div>
+        <div class="c-slogan-box" style="border-color: rgba(0,0,0,0.05);">
+          <div class="c-slogan-cn" style="color:var(--text3);">边界即方向</div>
+          <div class="c-slogan-en" style="color:var(--text3);">Life, redefined.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">基础科学与生态网络</div>
+    <div class="cards">
+      <div class="card" onclick="showP('shard')">
+        <div class="c-tag">Science</div>
+        <div class="c-title">碎片科学与数据库</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-cn">不可知风，而可依风造帆</div>
+          <div class="c-slogan-en">Searchable. Sortable. Shareable.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('bell')">
+        <div class="c-tag">Environment</div>
+        <div class="c-title">BELL 生态监测网</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-en">Seamless. Secure. Silent.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">公共终端与服务</div>
+    <div class="cards">
+      <div class="card" onclick="showP('leaf')">
+        <div class="c-tag">Device</div>
+        <div class="c-title">LEAF 碎片终端</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-cn">让碎片为生活服务……</div>
+          <div class="c-slogan-en">Sense. Sync. Support.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('mira')">
+        <div class="c-tag">Medical</div>
+        <div class="c-title">MIRA 创伤修复系统</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-en">Reconnect. Restore. Remember.</div>
+        </div>
+      </div>
+      <div class="card" onclick="showP('id')">
+        <div class="c-tag">Identity</div>
+        <div class="c-title">在存档名系统</div>
+        <div class="c-slogan-box">
+          <div class="c-slogan-en">One name. One record. One life.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <span>© CROWN · 中央行政管理委员会</span>
+    <span>技术支持：STEM-IX · CielCa / Crovet_AI</span>
+  </div>
+</div>
+
+<div id="page-view" style="display:none">
+  <div class="page-wrap">
+    <nav id="sidebar">
+      <div class="nav-label">机构设置</div>
+      <a class="nav-item" onclick="showP('crown')">CROWN</a>
+      <a class="nav-item" onclick="showP('stem')">STEM</a>
+      <a class="nav-item" onclick="showP('seed')">SEED</a>
+      <a class="nav-item" onclick="showP('zeal')">ZEAL</a>
+      <div class="nav-label">环境网络</div>
+      <a class="nav-item" onclick="showP('shard')">碎片数据库</a>
+      <a class="nav-item" onclick="showP('bell')">BELL 监测网</a>
+      <div class="nav-label">终端与服务</div>
+      <a class="nav-item" onclick="showP('leaf')">LEAF 系统</a>
+      <a class="nav-item" onclick="showP('mira')">MIRA 系统</a>
+      <a class="nav-item" onclick="showP('id')">在存档名查询</a>
+    </nav>
+    <div id="content"></div>
+  </div>
+</div>
+
+<script>
+// 页面数据重构：加入 Page Header Slogan 区域
+function renderPageHTML(title, sloganCn, sloganEn, content) {
+  return `
+    <div class="page-header">
+      <h1>${title}</h1>
+      ${sloganCn ? `<div class="ph-slogan-cn">${sloganCn}</div>` : ''}
+      ${sloganEn ? `<div class="ph-slogan-en">${sloganEn}</div>` : ''}
+    </div>
+    <div class="page-body">${content}</div>
+  `;
+}
+
+var PG = {
+  crown: renderPageHTML(
+    'CROWN', '秩序是文明的骨骼', 'Order sustains all.',
+    '<p>中央行政管理委员会（CROWN）是 Astera 及其附属区域的最高权力与行政管理中枢。</p>'
+  ),
+  stem: renderPageHTML(
+    'STEM', '', 'We build what holds.',
+    '<p>战略决策与技术支持中心。负责碎片技术研发、基础设施维护与底层数据管理。</p><div class="callout info"><div class="ct">设施说明</div><div class="cb">主要驻地位于 Astera·中心城 Tower A。</div></div>'
+  ),
+  seed: renderPageHTML(
+    'SEED', '从一片叶到一座城', 'From leaf to city.',
+    '<p>碎片生态研究所。专注于碎片与生态系统交互的基础研究，为城区安全提供科学支撑。</p>'
+  ),
+  zeal: renderPageHTML(
+    'ZEAL (已封存)', '边界即方向', 'Life, redefined.',
+    '<div class="callout info"><div class="ct">查阅限制说明</div><div class="cb">根据《行政档案管理条例》，历史项目 [ZEAL] 卷宗已封存。普通账户不具备查阅权限。</div></div>'
+  ),
+  shard: renderPageHTML(
+    'Shard Database', '不可知风，而可依风造帆', 'Searchable. Sortable. Shareable.',
+    '<p>公开展示民用级 (Class-V ~ IV) 碎片信息。</p><h2>碎片安全分级规则</h2><p style="font-family: var(--mono); font-size: 11px; color: var(--primary); letter-spacing: 0.1em; font-weight: bold;">CLASSIFIED. CONTAINED. CONTROLLED.</p><p>依据能量强度、规则稳定性及应用风险分为五个等级。</p><div class="callout info"><div class="ct">权限拦截</div><div class="cb">Class-I 原始级与 Class-II 高能级碎片状态：<span class="redacted">*[ 数据已从公共网物理隔离 ]*</span></div></div>'
+  ),
+  bell: renderPageHTML(
+    'BELL 生态监测网', '', 'Seamless. Secure. Silent.',
+    '<p>生物环境监听网络（Biological Environmental Listening Lattice）。遍布城区与森林边界的微型节点，全天候保障您的环境安全。</p>'
+  ),
+  leaf: renderPageHTML(
+    'LEAF 碎片辅助终端', '让碎片为生活服务……', 'Sense. Sync. Support.',
+    '<p>面向全体居民的标准化碎片辅助装置系统。</p><h2>更新日志</h2><ul style="list-style:none; font-size:13px; color:var(--text2);"><li style="margin-bottom:8px;"><span style="font-family:var(--mono); color:var(--primary); margin-right:8px;">[v3.2.1]</span>优化底层环境响应速率。</li><li><span style="font-family:var(--mono); color:var(--primary); margin-right:8px;">[v3.0.0]</span>大版本架构重构。<i>A new leaf awaits.</i></li></ul>'
+  ),
+  mira: renderPageHTML(
+    'MIRA 创伤修复系统', '', 'Reconnect. Restore. Remember.',
+    '<p>官方指定的天灾创伤心理介入与连接修复设备。请前往授权的社区诊所进行评估。</p>'
+  ),
+  id: renderPageHTML(
+    '在存档名 Archive Identity', '', 'One name. One record. One life.',
+    '<p>官方文书与公共服务仅认可在存档名，俗名不具备系统效力。</p><div style="margin-top: 36px; padding: 24px; border: 1px solid var(--bdr); background: var(--bg);"><h4 style="font-family: var(--mono); font-size: 12px; margin-bottom: 12px; color: var(--text2);">[ 民用节点身份验证查询 ]</h4><div class="fake-input-group" style="display: flex; gap: 8px;"><input type="text" id="archiveInput" class="fake-input" placeholder="输入在存档名或拼音 (如: Raddity)..."><button class="fake-btn" onclick="verifyName()">提交查询</button></div><div id="archiveResult" class="query-result"></div></div>'
+  )
+};
+
+function goHome(){document.getElementById('home-view').style.display='';document.getElementById('page-view').style.display='none';window.scrollTo(0,0);}
+function showP(id){
+  var contentHTML = PG[id];if(!contentHTML)return;
+  document.getElementById('home-view').style.display='none';
+  document.getElementById('page-view').style.display='';
+  document.getElementById('content').innerHTML=contentHTML;
+  document.querySelectorAll('#sidebar .nav-item').forEach(function(el){el.classList.remove('active');if(el.getAttribute('onclick')==="showP('"+id+"'")el.classList.add('active');});
+  window.scrollTo(0,0);
+}
+
+function verifyName() {
+  const inputEl = document.getElementById('archiveInput');
+  const resultEl = document.getElementById('archiveResult');
+  const val = inputEl.value.trim().toLowerCase();
+  
+  if(!val) {
+    resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
+    resultEl.innerHTML = '<span style="color:var(--text3)">SYS_MSG: 请输入有效的查询字段。</span>'; return;
+  }
+  
+  resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
+  resultEl.innerHTML = '<span style="color:var(--text3)">正在连接中心城身份数据库...</span>';
+  
+  setTimeout(() => {
+    if(val === 'raddity' || val === '伦') {
+      resultEl.style.borderLeftColor = 'var(--primary)';
+      resultEl.innerHTML = `<span style="color:var(--primary); font-weight:bold;">[ 验证通过 ]</span><br>登记姓名: Raddity<br>当前状态: <span style="color:var(--primary);">正常 (Active)</span><br>权限节点: D级普通许可`;
+    } 
+    else if (val === 'selute' || val === '西鲁特') {
+      resultEl.style.borderLeftColor = '#a83232';
+      resultEl.innerHTML = `<span style="color:#a83232; font-weight:bold;">[ 查询无果 ]</span><br>输入字段: ${inputEl.value}<br>系统回执: 该档案序列不存在或已执行注销程序。`;
+    }
+    else {
+      resultEl.style.borderLeftColor = 'var(--primary)';
+      resultEl.innerHTML = `<span style="color:var(--primary); font-weight:bold;">[ 验证通过 ]</span><br>登记姓名: ${inputEl.value}<br>当前状态: 正常 (Active)<br><span style="color:var(--text3); font-size:11px;">*接口不提供衍生信息。</span>`;
+    }
+  }, 600);
+}
+</script>
+</body>
+</html>
