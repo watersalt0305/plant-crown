@@ -327,13 +327,67 @@ function showP(id){
 }
 
 function verifyName() {
-const inputEl = document.getElementById('archiveInput');
-const resultEl = document.getElementById('archiveResult');
-const val = inputEl.value.trim().toLowerCase();
+  const inputEl = document.getElementById('archiveInput');
+  const resultEl = document.getElementById('archiveResult');
+  const val = inputEl.value.trim().toLowerCase();
 
-if(!val) {
-resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
-resultEl.innerHTML = '<span style="color:var(--text3)">SYS_MSG: 请输入有效的查询字段。</span>'; return;
+    resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
+    resultEl.innerHTML = '<span style="color:var(--text3)">SYS_MSG: 请输入有效的查询字段。</span>'; return;
+  }
+
+  resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
+  resultEl.innerHTML = '<span style="color:var(--text3)">正在连接中心城身份数据库...</span>';
+
+  var DB = {
+    'raddity': {s:'ok',n:'Raddity',st:'正常 (Active)',lv:'D级普通许可',note:'近期入职 STEM。无往期履历。'},
+    '伦': {s:'ok',n:'Raddity',st:'正常 (Active)',lv:'D级普通许可',note:'近期入职 STEM。无往期履历。'},
+    'insden': {s:'ok',n:'Insden',st:'正常 (Active)',lv:'A级核心权限',note:'STEM 首席研究员。根据《公共隐私保护法》第42条，详细档案已脱敏。'},
+    '因斯灯儿': {s:'ok',n:'Insden',st:'正常 (Active)',lv:'A级核心权限',note:'STEM 首席研究员。根据《公共隐私保护法》第42条，详细档案已脱敏。'},
+    '灯儿': {s:'ok',n:'Insden',st:'正常 (Active)',lv:'A级核心权限',note:'STEM 首席研究员。根据《公共隐私保护法》第42条，详细档案已脱敏。'},
+    'cielca': {s:'ok',n:'CielCa',st:'正常 (Active)',lv:'B级技术许可',note:'技术部外派人员/系统维护员。'},
+    '希鸥卡': {s:'ok',n:'CielCa',st:'正常 (Active)',lv:'B级技术许可',note:'技术部外派人员/系统维护员。'},
+    '卡卡': {s:'ok',n:'CielCa',st:'正常 (Active)',lv:'B级技术许可',note:'技术部外派人员/系统维护员。'},
+    'aa': {s:'ok',n:'Aa',st:'正常 (Active)',lv:'A级核心权限',note:'AType 首席执行官。跨机构联署权限。'},
+    'selute': {s:'dead',n:'Selute'},
+    '西鲁特': {s:'dead',n:'Selute'},
+    'crovet': {s:'sys',n:'Crovet_AI',st:'正常运行 (SYS)',note:'CROWN 安全监控系统实体。非自然人。'},
+    'minthy': {s:'ok',n:'Minthy',st:'正常 (Active)',lv:'C级持证许可',note:'药剂师执照有效。Folium区注册。'},
+    '明栖': {s:'ok',n:'Minthy',st:'正常 (Active)',lv:'C级持证许可',note:'药剂师执照有效。Folium区注册。'},
+    'mimo': {s:'ok',n:'Mimo',st:'正常 (Active)',lv:'C级普通许可',note:'所属区域：Folium。'},
+    '米漠': {s:'ok',n:'Mimo',st:'正常 (Active)',lv:'C级普通许可',note:'所属区域：Folium。'},
+    'lin': {s:'none'},
+    '林': {s:'none'},
+    'cellminta': {s:'err'},
+    '西尔洺塔': {s:'err'},
+    'zeal': {s:'kw'}, 'ic': {s:'kw'}, '花堂': {s:'kw'}, '藏书阁': {s:'kw'}
+  };
+
+  setTimeout(function() {
+    const res = DB[val];
+    const renderItem = (k, v) => `<div style="display:flex; margin-bottom:4px;"><span style="width:80px; font-weight:bold; color:var(--text2);">${k}</span><span>${v}</span></div>`;
+
+      resultEl.style.borderLeftColor = 'var(--primary)';
+      resultEl.innerHTML = renderItem('存档名', inputEl.value) + renderItem('当前状态', '正常 (Active)') + renderItem('许可等级', 'D级普通许可') + `<div style="margin-top:8px; font-size:12px; color:var(--text3);">备注：公共记录。</div>`;
+    } else if(res.s==='none') {
+      resultEl.style.borderLeftColor = '#999';
+      resultEl.innerHTML = '<span style="color:#999">未找到匹配的在存档名记录。请检查拼写或前往中心城行政大厅提交补录申请。</span>';
+    } else if(res.s==='kw') {
+      resultEl.style.borderLeftColor = 'var(--warn)';
+      resultEl.innerHTML = '<span style="color:var(--warn)">警告：在存档名查询仅支持个人身份验证，不支持机构或地理标签检索。</span>';
+    } else if(res.s==='err') {
+      resultEl.style.borderLeftColor = 'var(--warn)';
+      resultEl.innerHTML = '<span style="color:var(--warn); font-family:var(--mono);">[FATAL ERROR] Query Interrupted. (ERR_0x7F)<br>正在上报异常至系统管理员...</span>';
+    } else if(res.s==='dead') {
+      resultEl.style.borderLeftColor = '#000';
+      resultEl.innerHTML = renderItem('存档名', res.n) + renderItem('当前状态', '已注销 (Archived)') + renderItem('许可等级', '——') + `<div style="margin-top:8px; font-size:12px; color:#666;">备注：由于生命周期终止，该记录已转入静态存档库。</div>`;
+    } else if(res.s==='sys') {
+      resultEl.style.borderLeftColor = 'var(--primary)';
+      resultEl.innerHTML = renderItem('存档名', res.n) + renderItem('当前状态', res.st) + renderItem('许可等级', '系统级') + `<div style="margin-top:8px; font-size:12px; color:var(--text3);">备注：${res.note}</div>`;
+    } else {
+      resultEl.style.borderLeftColor = 'var(--primary)';
+      resultEl.innerHTML = renderItem('存档名', res.n) + renderItem('当前状态', res.st) + renderItem('许可等级', res.lv || '——') + `<div style="margin-top:8px; font-size:12px; color:var(--text3);">备注：${res.note || '无。'} 公共接口不提供衍生信息。</div>`;
+    }
+  }, 600);
 }
 
 resultEl.style.display = 'block'; resultEl.style.borderLeftColor = 'var(--text3)';
