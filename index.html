@@ -278,43 +278,16 @@ function renderPageHTML(title, sloganCn, sloganEn, content) {
 }
 
 var PG = {
-  crown: renderPageHTML(
-    'CROWN', '秩序是文明的骨骼', 'Order sustains all.',
-    '<p>中央行政管理委员会（CROWN）是 Astera 及其附属区域的最高权力与行政管理中枢。</p>'
-  ),
-  stem: renderPageHTML(
-    'STEM', '', 'We build what holds.',
-    '<p>战略决策与技术支持中心。负责碎片技术研发、基础设施维护与底层数据管理。</p><div class="callout info"><div class="ct">设施说明</div><div class="cb">主要驻地位于 Astera·中心城 Tower A。</div></div>'
-  ),
-  seed: renderPageHTML(
-    'SEED', '从一片叶到一座城', 'From leaf to city.',
-    '<p>碎片生态研究所。专注于碎片与生态系统交互的基础研究，为城区安全提供科学支撑。</p>'
-  ),
-  zeal: renderPageHTML(
-    'ZEAL (已封存)', '边界即方向', 'Life, redefined.',
-    '<div class="callout info"><div class="ct">查阅限制说明</div><div class="cb">根据《行政档案管理条例》，历史项目 [ZEAL] 卷宗已封存。普通账户不具备查阅权限。</div></div>'
-  ),
-  shard: renderPageHTML(
-    'Shard Database', '不可知风，而可依风造帆', 'Searchable. Sortable. Shareable.',
-    '<p>公开展示民用级 (Class-V ~ IV) 碎片信息。</p><h2>碎片安全分级规则</h2><p style="font-family: var(--mono); font-size: 11px; color: var(--primary); letter-spacing: 0.1em; font-weight: bold;">CLASSIFIED. CONTAINED. CONTROLLED.</p><p>依据能量强度、规则稳定性及应用风险分为五个等级。</p><div class="callout info"><div class="ct">权限拦截</div><div class="cb">Class-I 原始级与 Class-II 高能级碎片状态：<span class="redacted">*[ 数据已从公共网物理隔离 ]*</span></div></div>'
-  ),
-  bell: renderPageHTML(
-    'BELL 生态监测网', '', 'Seamless. Secure. Silent.',
-    '<p>生物环境监听网络（Biological Environmental Listening Lattice）。遍布城区与森林边界的微型节点，全天候保障您的环境安全。</p>'
-  ),
-  leaf: renderPageHTML(
-    'LEAF 碎片辅助终端', '让碎片为生活服务……', 'Sense. Sync. Support.',
-    '<p>面向全体居民的标准化碎片辅助装置系统。</p><h2>更新日志</h2><ul style="list-style:none; font-size:13px; color:var(--text2);"><li style="margin-bottom:8px;"><span style="font-family:var(--mono); color:var(--primary); margin-right:8px;">[v3.2.1]</span>优化底层环境响应速率。</li><li><span style="font-family:var(--mono); color:var(--primary); margin-right:8px;">[v3.0.0]</span>大版本架构重构。<i>A new leaf awaits.</i></li></ul>'
-  ),
-  mira: renderPageHTML(
-    'MIRA 创伤修复系统', '', 'Reconnect. Restore. Remember.',
-    '<p>官方指定的天灾创伤心理介入与连接修复设备。请前往授权的社区诊所进行评估。</p>'
-  ),
-  id: renderPageHTML(
-    '在存档名 Archive Identity', '', 'One name. One record. One life.',
-    '<p>官方文书与公共服务仅认可在存档名，非存档名不具备系统效力。</p><h2>查询说明</h2><p>本接口为居民间身份互验通道，默认仅返回档案有效性（<b>档案有效</b> / <b>已注销</b> / <b>未找到匹配</b>）。如需调阅本人完整档案，请同时提供个人档案识别码。</p><div style="margin-top: 36px; padding: 24px; border: 1px solid var(--bdr); background: var(--bg);"><h4 style="font-family: var(--mono); font-size: 12px; margin-bottom: 12px; color: var(--text2);">[ 民用节点身份验证查询 ]</h4><div class="fake-input-group" style="display: flex; flex-direction: column; gap: 8px;"><input type="text" id="archiveInput" class="fake-input" placeholder="在存档名 / Archive Name"><input type="text" id="archiveCode" class="fake-input" placeholder="档案识别码（选填，仅本人查询需要）"><button class="fake-btn" onclick="verifyName()">提交查询</button></div><div style="margin-top:10px; font-family:var(--mono); font-size:10px; color:var(--text3); line-height:1.6;">SYS_NOTE: 查询记录将依《档案调阅条例》进行节点日志留存。</div><div id="archiveResult" class="query-result"></div></div>'
-  )
-};
+  crown: renderPageHTML("CROWN", "秩序是文明的骨骼", "Order sustains all.", "<p>中央行政管理委员会（CROWN）是 Astera 及其附属区域的最高权力与行政管理中枢。</p>"),
+  stem: renderPageHTML("STEM", "", "We build what holds.", "<p>战略决策与技术支持中心。负责碎片技术研发、基础设施维护与底层数据管理。</p>\n<div class=\"callout info\"><div class=\"ct\">设施说明</div><div class=\"cb\"><p>主要驻地位于 Astera·中心城 Tower A。</p></div></div>"),
+  seed: renderPageHTML("SEED", "从一片叶到一座城", "From leaf to city.", "<p>碎片生态研究所。专注于碎片与生态系统交互的基础研究，为城区安全提供科学支撑。</p>"),
+  zeal: renderPageHTML("ZEAL (已封存)", "边界即方向", "Life, redefined.", "<div class=\"callout info\"><div class=\"ct\">查阅限制说明</div><div class=\"cb\"><p>根据《行政档案管理条例》，历史项目 [ZEAL] 卷宗已封存。普通账户不具备查阅权限。</p></div></div>"),
+  shard: renderPageHTML("Shard Database", "不可知风，而可依风造帆", "Searchable. Sortable. Shareable.", "<p>公开展示民用级 (Class-V ~ IV) 碎片信息。</p>\n<h2>碎片安全分级规则</h2>\n<p style=\"font-family: var(--mono); font-size: 11px; color: var(--primary); letter-spacing: 0.1em; font-weight: bold;\">CLASSIFIED. CONTAINED. CONTROLLED.</p>\n<p>依据能量强度、规则稳定性及应用风险分为五个等级。</p>\n<div class=\"callout info\"><div class=\"ct\">权限拦截</div><div class=\"cb\"><p>Class-I 原始级与 Class-II 高能级碎片状态：<span class=\"redacted\" title=\"[权限不足]\">数据已从公共网物理隔离</span></p></div></div>"),
+  bell: renderPageHTML("BELL 生态监测网", "", "Seamless. Secure. Silent.", "<p>生物环境监听网络（Biological Environmental Listening Lattice）。遍布城区与森林边界的微型节点，全天候保障您的环境安全。</p>"),
+  leaf: renderPageHTML("LEAF 碎片辅助终端", "让碎片为生活服务……", "Sense. Sync. Support.", "<p>面向全体居民的标准化碎片辅助装置系统。</p>\n<h2>更新日志</h2>\n<ul style=\"list-style:none; font-size:13px; color:var(--text2);\">\n<li style=\"margin-bottom:8px;\"><span style=\"font-family:var(--mono); color:var(--primary); margin-right:8px;\">[v3.2.1]</span>优化底层环境响应速率。</li>\n<li><span style=\"font-family:var(--mono); color:var(--primary); margin-right:8px;\">[v3.0.0]</span>大版本架构重构。<i>A new leaf awaits.</i></li>\n</ul>"),
+  mira: renderPageHTML("MIRA 创伤修复系统", "", "Reconnect. Restore. Remember.", "<p>官方指定的天灾创伤心理介入与连接修复设备。请前往授权的社区诊所进行评估。</p>"),
+  id: renderPageHTML("在存档名 Archive Identity", "", "One name. One record. One life.", "<p>官方文书与公共服务仅认可在存档名，非存档名不具备系统效力。</p>\n<h2>查询说明</h2>\n<p>本接口为居民间身份互验通道，默认仅返回档案有效性（<strong>档案有效</strong> / <strong>已注销</strong> / <strong>未找到匹配</strong>）。如需调阅本人完整档案，请同时提供个人档案识别码。</p>\n<div style=\"margin-top: 36px; padding: 24px; border: 1px solid var(--bdr); background: var(--bg);\">\n<h4 style=\"font-family: var(--mono); font-size: 12px; margin-bottom: 12px; color: var(--text2);\">[ 民用节点身份验证查询 ]</h4>\n<div class=\"fake-input-group\" style=\"display: flex; flex-direction: column; gap: 8px;\">\n<input type=\"text\" id=\"archiveInput\" class=\"fake-input\" placeholder=\"在存档名 / Archive Name\">\n<input type=\"text\" id=\"archiveCode\" class=\"fake-input\" placeholder=\"档案识别码（选填，仅本人查询需要）\">\n<button class=\"fake-btn\" onclick=\"verifyName()\">提交查询</button>\n</div>\n<div style=\"margin-top:10px; font-family:var(--mono); font-size:10px; color:var(--text3); line-height:1.6;\">SYS_NOTE: 查询记录将依《档案调阅条例》进行节点日志留存。</div>\n<div id=\"archiveResult\" class=\"query-result\"></div>\n</div>"),
+}
 
 function goHome(){document.getElementById('home-view').style.display='';document.getElementById('page-view').style.display='none';window.scrollTo(0,0);}
 function showP(id){
@@ -357,8 +330,8 @@ var SYS_KW = {
 var DB = {
 'raddity':  {s:'valid',  n:'Raddity'},
 '伦':       {s:'valid',  n:'Raddity'},
-'minthy':   {s:'notfound'},
-'明栖':     {s:'notfound'},
+'minthy':   {s:'valid',  n:'Minthy'},
+'明栖':     {s:'valid',  n:'Minthy'},
 'lin':      {s:'notfound'},
 '林':       {s:'notfound'},
 'selute':   {s:'nullified', n:'Selute'},
